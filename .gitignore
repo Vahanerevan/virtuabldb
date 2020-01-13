@@ -2,5 +2,4 @@
 !cmd
 !README.md
 !.gitignore
-!src/github.com/vahanerevan
-!src/github.com/vahanerevan/**
+!src/**
