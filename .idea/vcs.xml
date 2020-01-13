@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/gobwas/httphead" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/gobwas/pool" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/gobwas/ws" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/google/btree" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/guregu/null" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/juliangruber/go-intersect" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/shopspring/decimal" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/spf13/cast" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/src/github.com/thoas/go-funk" vcs="Git" />
+  </component>
+</project>

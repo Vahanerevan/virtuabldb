@@ -1,4 +1,6 @@
-/*
-!/cmd
-!/.gitignore
-!/src/github.com/vahanerevan/**
+*/*
+!cmd
+!src/
+!src/github.com/*
+!src/github.com/*
+!src/github.com/vahanerevan/**
