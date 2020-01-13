@@ -1,5 +1,2 @@
 *
-!cmd
-!README.md
-!.gitignore
-!src/**
+!src
