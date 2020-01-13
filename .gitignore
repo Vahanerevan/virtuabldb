@@ -1,0 +1,11 @@
+/*
+!/src
+!src
+src/*
+!cmd/*
+!main.go
+!README.md
+!.gitignore
+!build
+**/.DS_Store
+!/src/github.com/vahanerevan/*
