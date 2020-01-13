@@ -1,11 +1,7 @@
-/*
-!/src
-!src
-src/*
-!cmd/*
+*
+!cmd
 !main.go
 !README.md
 !.gitignore
-!build
-**/.DS_Store
-!/src/github.com/vahanerevan/*
+!src/github.com/vahanerevan/*
+!src/github.com/vahanerevan
