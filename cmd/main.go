@@ -159,6 +159,5 @@ func main() {
 	totalStart()
 	vdatabase.PrintMemUsage()
 
-	var connection net.Conn
 
 }
