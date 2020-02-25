@@ -1,4 +1,4 @@
-#In memory B-TREE database 
+# In memory B-TREE database 
 IN DEVELOPMENT DONT USE FOR PRODUCTION
 
 ```go
