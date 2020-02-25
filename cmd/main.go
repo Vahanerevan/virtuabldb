@@ -5,7 +5,7 @@ import (
 	"github.com/gobwas/ws"
 	"github.com/gobwas/ws/wsutil"
 	"github.com/shopspring/decimal"
-	vdb "github.com/vahanerevan/virtuabldb"
+	"github.com/vahanerevan/virtuabldb"
 	"math/rand"
 	"net"
 	"net/http"
@@ -17,18 +17,18 @@ func randRange(min, max int) int {
 	return rand.Intn(max-min) + min
 }
 
-const TypeDecimal vdb.DataType = "decimal"
-const TypeNullInt vdb.DataType = "null_int"
+const TypeDecimal vdatabase.DataType = "decimal"
+const TypeNullInt vdatabase.DataType = "null_int"
 
 func init() {
-	vdb.DefineIndexResolver(TypeDecimal, vdb.IndexResolver{
+	vdatabase.DefineIndexResolver(TypeDecimal, vdatabase.IndexResolver{
 		Less: func(item, than interface{}) bool {
 			return (item).(decimal.Decimal).LessThan(than.(decimal.Decimal))
 		},
 		Transform: nil,
 	})
 
-	vdb.DefineIndexResolver(TypeNullInt, vdb.IndexResolver{
+	vdatabase.DefineIndexResolver(TypeNullInt, vdatabase.IndexResolver{
 		Less: func(item, than interface{}) bool {
 			return *item.(*int) < *than.(*int)
 		},
@@ -38,55 +38,53 @@ func init() {
 	})
 }
 
-var schema vdb.Schema
-
 func createTable() {
 
-	vdb.CreateTable(vdb.VirtualTable{
+	vdatabase.CreateTable(vdatabase.VirtualTable{
 		Name: "User",
-		IndexOptions: vdb.IndexOptions{
-			vdb.IndexOption{
+		IndexOptions: vdatabase.IndexOptions{
+			vdatabase.IndexOption{
 				Name: "Id",
-				Type: vdb.TYPE_INT,
+				Type: vdatabase.TypeInt,
 			},
-			vdb.IndexOption{
+			vdatabase.IndexOption{
 				Name: "Name",
-				Type: vdb.TYPE_STRING,
+				Type: vdatabase.TypeString,
 			},
-			vdb.IndexOption{
+			vdatabase.IndexOption{
 				Name: "Age",
-				Type: vdb.TYPE_INT,
+				Type: vdatabase.TypeInt,
 				Null: true,
 			},
-			vdb.IndexOption{
+			vdatabase.IndexOption{
 				Name: "IsMain",
-				Type: vdb.TYPE_BOOL,
+				Type: vdatabase.TypeBool,
 			},
-			vdb.IndexOption{
+			vdatabase.IndexOption{
 				Name: "Balance",
 				Type: TypeDecimal,
 			},
 		},
 	})
 
-	vdb.CreateTable(vdb.VirtualTable{
+	vdatabase.CreateTable(vdatabase.VirtualTable{
 		Name: "UserPersonal",
-		IndexOptions: vdb.IndexOptions{
-			vdb.IndexOption{
+		IndexOptions: vdatabase.IndexOptions{
+			vdatabase.IndexOption{
 				Name: "UserId",
-				Type: vdb.TYPE_INT,
+				Type: vdatabase.TypeInt,
 			},
-			vdb.IndexOption{
+			vdatabase.IndexOption{
 				Name: "Address",
-				Type: vdb.TYPE_STRING,
+				Type: vdatabase.TypeString,
 			},
-			vdb.IndexOption{
+			vdatabase.IndexOption{
 				Name: "Phone",
-				Type: vdb.TYPE_STRING,
+				Type: vdatabase.TypeString,
 			},
-			vdb.IndexOption{
+			vdatabase.IndexOption{
 				Name: "Email",
-				Type: vdb.TYPE_STRING,
+				Type: vdatabase.TypeString,
 			},
 		},
 	})
@@ -130,8 +128,8 @@ func main() {
 	rand.Seed(time.Now().UnixNano())
 	totalStart := timePoint("Total Time")
 
-	userTable := vdb.Table("User")
-	personalTable := vdb.Table("UserPersonal")
+	userTable := vdatabase.Table("User")
+	personalTable := vdatabase.Table("UserPersonal")
 
 	insertStart := timePoint("Insert Time")
 
@@ -157,15 +155,12 @@ func main() {
 	insertStart()
 	searchStart := timePoint("Search Time")
 
-	q := vdb.NewQuery("User")
+	q := vdatabase.Query("User")
 	q.Filter("Id").Equals(3)
-	//q.Filter("Age").Equals( 5)
 	result := q.Result()
-	//pq.Where("Phone", "1")
+
 	searchStart()
 
-	//iup := pq.Filter("UserId").Equals(user{Id:4}.Id).First()
-	//fmt.Println(iup.(userPersonal).UserId)
 	fmt.Println(result.Count())
 	result.Iterate(func(item interface{}) {
 		fmt.Println(item)
@@ -174,14 +169,13 @@ func main() {
 	})
 
 	totalStart()
-	vdb.PrintMemUsage()
+	vdatabase.PrintMemUsage()
 
 	var connection net.Conn
 	http.ListenAndServe(":8798", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		conn, _, _, err := ws.UpgradeHTTP(r, w)
-			if err != nil {
-			// handle error
-			fmt.Println("ERRRRRRR",err)
+		if err != nil {
+			fmt.Println("ERRRRRRR", err)
 		}
 		fmt.Println("Client Connected")
 
@@ -204,15 +198,15 @@ func main() {
 
 			for {
 				msg, op, err := wsutil.ReadClientData(conn)
-				fmt.Println("Message",string(msg))
+				fmt.Println("Message", string(msg))
 				if err != nil {
-					fmt.Println("ERRRRRRR",err)
+					fmt.Println("ERRRRRRR", err)
 					// handle error
 				}
 				err = wsutil.WriteServerMessage(conn, op, []byte("{}"))
 
 				if err != nil {
-					fmt.Println("ERRRRRRR",err)
+					fmt.Println("ERRRRRRR", err)
 
 					// handle error
 				}
